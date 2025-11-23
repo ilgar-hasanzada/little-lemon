@@ -3,10 +3,9 @@ import logo from '../assets/logo.jpg';
 
 function Header() {
   return (
-    <header>
+    <header className="site-header">
       <div className="logo">
         <img src={logo} alt="Little Lemon logo" /> 
-        <span>Little Lemon</span>
       </div>
       <Nav />
     </header>
