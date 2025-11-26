@@ -1,7 +1,8 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useReducer } from 'react';
 import HomePage from './HomePage';
 import BookingPage from './BookingPage';
+import ConfirmedBooking from './ConfirmedBooking';
 import { initializeTimes, updateTimes } from '../utils/times';
 
 function Main() {
@@ -10,6 +11,27 @@ function Main() {
     [],
     initializeTimes
   );
+
+  const navigate = useNavigate();
+
+  function submitForm(formData) {
+    let isSuccess = true;
+
+    // api.js faylından gələn submitAPI varsa, ondan istifadə edirik
+    if (typeof window !== 'undefined' && typeof window.submitAPI === 'function') {
+      isSuccess = window.submitAPI(formData);
+    } else {
+      console.warn(
+        'submitAPI is not available on window; assuming success for local development.'
+      );
+    }
+
+    if (isSuccess) {
+      navigate('/confirmed');
+    } else {
+      alert('Something went wrong. Please try again.');
+    }
+  }
 
   return (
     <main className="main">
@@ -21,9 +43,11 @@ function Main() {
             <BookingPage
               availableTimes={availableTimes}
               dispatch={dispatch}
+              submitForm={submitForm}
             />
           }
         />
+        <Route path="/confirmed" element={<ConfirmedBooking />} />
       </Routes>
     </main>
   );

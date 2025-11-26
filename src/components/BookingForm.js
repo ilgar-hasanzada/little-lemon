@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-function BookingForm({ availableTimes, dispatch }) {
-  // Form sahələrinin state-ləri (controlled component)
+function BookingForm({ availableTimes, dispatch, submitForm }) {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [guests, setGuests] = useState(1);
@@ -10,23 +9,20 @@ function BookingForm({ availableTimes, dispatch }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log('Reservation details:', {
+    const formData = {
       date,
       time,
       guests,
       occasion,
-    });
+    };
 
-    alert(
-      `Reservation submitted:\nDate: ${date}\nTime: ${time}\nGuests: ${guests}\nOccasion: ${occasion}`
-    );
+    // Main-dən gələn funksiyanı çağırırıq
+    submitForm(formData);
   };
 
-  // Tarix dəyişəndə həm lokal state-i, həm də reducer-i yeniləyirik
   const handleDateChange = (e) => {
     const newDate = e.target.value;
     setDate(newDate);
-    // Main-dəki reducer-ə xəbər veririk
     dispatch({ type: 'SET_DATE', date: newDate });
   };
 
