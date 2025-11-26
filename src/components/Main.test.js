@@ -4,14 +4,19 @@ describe('initializeTimes', () => {
   test('calls fetchAPI with today and returns its result', () => {
     const mockTimes = ['17:00', '18:00', '19:00'];
 
-    // Test mühitində global fetchAPI-ni mock edirik
+    // Jest mühitində global fetchAPI-ni mock edirik
     global.fetchAPI = jest.fn(() => mockTimes);
 
     const result = initializeTimes();
 
+    // 1 dəfə çağırılıb?
     expect(global.fetchAPI).toHaveBeenCalledTimes(1);
+
+    // Verilən arqument Date olmalıdır
     const arg = global.fetchAPI.mock.calls[0][0];
     expect(arg).toBeInstanceOf(Date);
+
+    // initializeTimes-in qaytardığı cavab mockTimes-ə bərabər olmalıdır
     expect(result).toEqual(mockTimes);
   });
 });
@@ -22,17 +27,23 @@ describe('updateTimes', () => {
     global.fetchAPI = jest.fn(() => mockTimes);
 
     const action = { type: 'SET_DATE', date: '2025-10-10' };
+
+    // state önəmsizdir, əsas action.date-dir
     const result = updateTimes([], action);
 
     expect(global.fetchAPI).toHaveBeenCalledTimes(1);
+
+    // fetchAPI-ə ötürülən tarix new Date(action.date) olmalıdır
     const arg = global.fetchAPI.mock.calls[0][0];
-    expect(arg).toEqual(new Date('2025-10-10')); // vaxt baxımından eyni tarix
+    expect(arg).toEqual(new Date('2025-10-10'));
+
+    // Qaytardığı nəticə də mockTimes olmalıdır
     expect(result).toEqual(mockTimes);
   });
 
   test('returns the same state for unknown action types', () => {
     const initialState = ['17:00'];
-    global.fetchAPI = jest.fn(); // çağrılmamalıdır
+    global.fetchAPI = jest.fn(); // bu testdə çağırılmamalıdır
 
     const result = updateTimes(initialState, { type: 'UNKNOWN' });
 
