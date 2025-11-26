@@ -319,3 +319,7 @@ img {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+.error-message {
+  color: #b94545;
+  font-size: 0.8rem;
+}
