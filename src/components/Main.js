@@ -11,19 +11,14 @@ function Main() {
     [],
     initializeTimes
   );
-
   const navigate = useNavigate();
 
   function submitForm(formData) {
     let isSuccess = true;
-
-    // api.js faylından gələn submitAPI varsa, ondan istifadə edirik
     if (typeof window !== 'undefined' && typeof window.submitAPI === 'function') {
       isSuccess = window.submitAPI(formData);
     } else {
-      console.warn(
-        'submitAPI is not available on window; assuming success for local development.'
-      );
+      console.warn('submitAPI is not available on window; assuming success for local development.');
     }
 
     if (isSuccess) {

@@ -143,6 +143,7 @@ function BookingForm({ availableTimes, dispatch, submitForm }) {
       <input
         type="submit"
         value="Make Your reservation"
+        aria-label="On Click"
         disabled={!isFormValid}
         style={{
           opacity: isFormValid ? 1 : 0.6,
